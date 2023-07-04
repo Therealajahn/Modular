@@ -1,8 +1,3 @@
-document.getElementById("start")?.addEventListener("click", async () => {
-  await Tone.start();
-  console.log("audio is ready");
-});
-
 const player = new Tone.Player("knarl_loop.wav").toDestination();
 const start = 0.2;
 const end = 0.5;
