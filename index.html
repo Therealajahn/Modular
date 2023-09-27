@@ -33,24 +33,26 @@ body{
     align-self: center;
     grid-template-columns: repeat(4,1fr);
     grid-template-rows: repeat(2,1fr);
-    gap: 0vw .5vw;
     background-color: #787878;
 }
 
 .button{
-    align-self: top;
-    justify-self: center;
     margin-top: -.5vw;
+    --button-size: 2.8vw;
+/*  
+    To Center a absolute
+    (length of container - width of button) / 2)*100 / length of container
+*/
+    margin-left:10.8%; 
 }
 
 .button-top{
     background-color:blue;
-    z-index: 5;
+    z-index: 10;
 }
 
 .button-top, .button-bottom{
-    position: relative;
-    --button-size: 2.8vw;
+    position: absolute;
     width:var(--button-size);
     height:var(--button-size);
     border-radius: .5vw;
@@ -58,7 +60,7 @@ body{
 
 .button-bottom{
     background-color:black;
-    margin-top: -1.8vw;
+    margin-top: 1.5vw;
 }
 
     </style>
@@ -114,7 +116,22 @@ body{
             </div>
       </body>
     <script src="Dependencies/Tone.js" defer></script>
-    <script src="Consolidate/main.js" defer></script>
+    <script>
+        let buttonList = document.getElementsByClassName("button-container")[0].children[0];
+        
+    
+    document.addEventListener("keydown",(event) => {
 
-  <script src="midiToNote.js" async defer></script>
+        console.log("key:",buttonList.children[0].children[0].style.marginTop);
+        switch(event.key){
+            case "q":
+                buttonList.children[0].style.marginTop = "1.5vw";
+            break;
+        }
+    });
+    </script>
+    <!--
+    <script class="consolidate" src="Consolidate/main.js" defer=""></script>
+     -->
+
 </html>
