@@ -1,3 +1,5 @@
+console.log("sequencer")
+
 const array = ["1", "2", "3", "4"];
 const sequence = new Tone.Sequence(doThis, array, "8n");
 

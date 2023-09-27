@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mylar Mini</title>
+    <style>
+    #percall{
+        display:grid;
+        grid-template-columns: repeat(4,1fr);
+        grid-template-rows: repeat(2,1fr);
+        height: 100vh;
+        width: 20vw;
+    } 
+    .volume, .release{
+        transform: rotate(-90deg);
+    }
+    </style>
+</head>
+<body>
+    <form id="percall" action="">
+        <input class="volume 1" type="range">
+        <input class="volume 2" type="range">
+        <input class="volume 3" type="range">
+        <input class="volume 4" type="range">
+        <input class="release 1" type="range">
+        <input class="release 2" type="range">
+        <input class="release 3" type="range">
+        <input class="release 4" type="range">
+    </form>
+</body>
+</html>

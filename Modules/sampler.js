@@ -1,7 +1,9 @@
+console.log("sampler");
+
 const player = new Tone.Player("knarl_loop.wav").toDestination();
 const start = 0.2;
 const end = 0.5;
-const stop = end - start;
+const stop = end - start
 
 const slowerButton = document.querySelector("#slower");
 const fasterButton = document.querySelector("#faster");

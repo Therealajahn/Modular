@@ -7,28 +7,114 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="" />
-  </head>
-  <body>
-    <button id="start">Start</button>
-    <div id="controls">
-      <button id="slower">Slower</button>
-      <input type="radio" name="slower-loop" class="loop slower" value="loop" />
-      <label for="loop">loop</label>
-      <input
-        type="radio"
-        name="slower-loop"
-        class="loop slower"
-        value="one-shot"
-      />
-      <label for="one-shot">one-shot</label>
-      <button id="faster">Faster</button>
-    </div>
+    <style type="text/css" media="screen">
 
-    <script src="Tone.js" defer></script>
-    <script src="smartpad.js" defer></script>
-    <script src="sequencer.js" defer></script>
-    <script src="sampler.js" defer></script>
-    <script src="vcv.js" defer></script>
-  </body>
+body{
+    display: grid;
+    background-color:grey;
+}
+
+.controls{
+    display:grid;
+    justify-self:center;
+    width:15vw;
+    height:50vw;
+    margin-top: 20vh;
+    border-radius: .5vw;
+    background-color:#d3d3d3;
+}
+
+.button-container{
+    display:grid;
+    width:95%;
+    height:20%;
+    border-radius: .5vw;
+    justify-self: center;
+    align-self: center;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(2,1fr);
+    gap: 0vw .5vw;
+    background-color: #787878;
+}
+
+.button{
+    align-self: top;
+    justify-self: center;
+    margin-top: -.5vw;
+}
+
+.button-top{
+    background-color:blue;
+    z-index: 5;
+}
+
+.button-top, .button-bottom{
+    position: relative;
+    --button-size: 2.8vw;
+    width:var(--button-size);
+    height:var(--button-size);
+    border-radius: .5vw;
+}
+
+.button-bottom{
+    background-color:black;
+    margin-top: -1.8vw;
+}
+
+    </style>
+
+  </head>
+      <body>
+          <div class="controls">
+
+            <div class="button-container">
+
+                <div class="button">
+                    <div class="button-top"></div>
+                    <div class="button-bottom"></div>
+                </div>
+                
+                <div class="button">
+                    <div class="button-top"></div>
+                    <div class="button-bottom"></div>
+                </div>
+
+                <div class="button">
+                    <div class="button-top"></div>
+                    <div class="button-bottom"></div>
+                </div>
+
+                <div class="button">
+                    <div class="button-top"></div>
+                    <div class="button-bottom"></div>
+                </div>
+
+                <div class="button">
+                    <div class="button-top"></div>
+                    <div class="button-bottom"></div>
+                </div>
+
+                <div class="button">
+                    <div class="button-top"></div>
+                    <div class="button-bottom"></div>
+                </div>
+                
+                <div class="button">
+                    <div class="button-top"></div>
+                    <div class="button-bottom"></div>
+                </div>
+
+                <div class="button">
+                    <div class="button-top"></div>
+                    <div class="button-bottom"></div>
+                </div>
+
+          </div>
+
+            </div>
+      </body>
+    <script src="Dependencies/Tone.js" defer></script>
+    <script src="Consolidate/main.js" defer></script>
+
   <script src="midiToNote.js" async defer></script>
 </html>

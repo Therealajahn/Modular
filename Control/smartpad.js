@@ -2,6 +2,7 @@ let currentNote = [];
 const state = {
   midiAccess: {},
 };
+
 async function askForMIDI() {
   state.midiAccess = await navigator.requestMIDIAccess();
   console.log(state.midiAccess);
@@ -21,6 +22,7 @@ async function askForMIDI() {
 
 askForMIDI();
 
+// get a list of interfaces that can be plugged into
 function getPlugs(interface, print) {
   const interfaceList = {};
   let i = 0;
@@ -37,14 +39,19 @@ function getPlugs(interface, print) {
   return interfaceList;
 }
 
+//if the number of interfaces changes, update the list
 function updateMIDI() {
   state.midiAccess.onstatechange = (event) => {
     getPlugs("inputs");
   };
 }
 
+//get the third interface on the list and call that the Smartpad
 function getSmartPad() {
-  let smartPadOutput = getPlugs("inputs")[1].object;
+    let smartPadOutput = getPlugs("inputs")[2].object;
+
+    if(!smartPadOutput) return;
+
   smartPadOutput.onmidimessage = (event) => {
     midiMessage = event.data.reduce(
       //Print the first three numbers of the midi data
