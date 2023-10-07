@@ -117,18 +117,22 @@ body{
       </body>
     <script src="Dependencies/Tone.js" defer></script>
     <script>
-        let buttonList = document.getElementsByClassName("button-container")[0].children[0];
-        
-    
-    document.addEventListener("keydown",(event) => {
+        let buttonList = document.getElementsByClassName("button-container")[0].children;
 
-        console.log("key:",buttonList.children[0].children[0].style.marginTop);
-        switch(event.key){
-            case "q":
-                buttonList.children[0].style.marginTop = "1.5vw";
-            break;
-        }
-    });
+        let keyList = "uiopjkl;" ;
+
+        document.addEventListener("keydown",(event) => {
+            let key = event.key;
+            let keyIndex = keyList.split('').indexOf(key);
+            console.log(keyList.split(''));
+            buttonTopMoving.style.marginTop = ".8vw";
+        });
+
+        document.addEventListener("keyup",(event) => {
+            let buttonTopMoving = document.getElementsByClassName("button-top")[0];
+            buttonTopMoving.style.marginTop = "0vw";
+        });
+    </script>
     </script>
     <!--
     <script class="consolidate" src="Consolidate/main.js" defer=""></script>
