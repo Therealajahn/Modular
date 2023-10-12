@@ -4,28 +4,45 @@
     <meta charset="UTF-8">
     <title>Mylar Mini</title>
     <style>
-    #percall{
+
+    *{
+        margin:0;
+        padding:0;
+    }
+
+    body{
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+    }
+
+    .percall{
         display:grid;
         grid-template-columns: repeat(4,1fr);
         grid-template-rows: repeat(2,1fr);
-        height: 100vh;
+        grid-gap: 2vw;
+        height: 80vh;
         width: 20vw;
     } 
+
     .volume, .release{
-        transform: rotate(-90deg);
+        background-color: black;
     }
+
     </style>
 </head>
 <body>
-    <form id="percall" action="">
-        <input class="volume 1" type="range">
-        <input class="volume 2" type="range">
-        <input class="volume 3" type="range">
-        <input class="volume 4" type="range">
-        <input class="release 1" type="range">
-        <input class="release 2" type="range">
-        <input class="release 3" type="range">
-        <input class="release 4" type="range">
-    </form>
+    <div class="percall" action="">
+        <div class="volume 1"></div>
+        <div class="volume 2"></div>
+        <div class="volume 3"></div>
+        <div class="volume 4"></div>
+        <div class="release 1"></div>
+        <div class="release 2"></div>
+        <div class="release 3"></div>
+        <div class="release 4"></div>
+    </div>
 </body>
 </html>
