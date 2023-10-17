@@ -27,16 +27,40 @@ body{
 .button-container{
     display:grid;
     width:95%;
-    height:20%;
+    height:30%;
     border-radius: .5vw;
     justify-self: center;
-    align-self: center;
+    align-self: start;
+    margin-top: 10vw;
     grid-template-columns: repeat(4,1fr);
-    grid-template-rows: repeat(2,1fr);
+    grid-template-rows: repeat(4,1fr);
+    grid-template-areas: 
+        "top top top top"
+        "mid mid mid mid"
+        "mid mid mid mid"
+        "spc spc spc spc";
     background-color: #787878;
 }
 
-.button{
+.utility-container{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    grid-area: top;
+}
+
+.middle-container{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    grid-template-rows: repeat(2,1fr);
+    grid-area: mid;
+}
+
+.space-container{
+    display:grid;
+    grid-area: spc;
+}
+
+.middle.button,.utility.button{
     margin-top: -.5vw;
     --button-size: 2.8vw;
 /*  
@@ -46,8 +70,9 @@ body{
     margin-left:10.8%; 
 }
 
-.button-top{
-    background-color:blue;
+
+.button-top {
+    background-color: #0083bb;
     z-index: 10;
 }
 
@@ -63,56 +88,90 @@ body{
     margin-top: 1.5vw;
 }
 
+.space-bar{
+    margin-top: -.5vw;
+/*  
+    To Center a absolute
+    (length of container - width of button) / 2)*100 / length of container
+*/
+}
+
+.space-top{
+    background-color: #0083bb;
+    z-index: 10;
+}
+
+.space-top,.space-bottom{
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    border-radius: .5vw;
+}
+
     </style>
 
   </head>
       <body>
           <div class="controls">
-
-              <div class="button-container"> 
-
-                <div class="button">
-                    <div class="button-top"></div>
-                    <div class="button-bottom"></div>
-                </div>
-                
-                <div class="button">
-                    <div class="button-top"></div>
-                    <div class="button-bottom"></div>
-                </div>
-
-                <div class="button">
-                    <div class="button-top"></div>
-                    <div class="button-bottom"></div>
-                </div>
-
-                <div class="button">
-                    <div class="button-top"></div>
-                    <div class="button-bottom"></div>
-                </div>
-
-                <div class="button">
-                    <div class="button-top"></div>
-                    <div class="button-bottom"></div>
-                </div>
-
-                <div class="button">
-                    <div class="button-top"></div>
-                    <div class="button-bottom"></div>
-                </div>
-                
-                <div class="button">
-                    <div class="button-top"></div>
-                    <div class="button-bottom"></div>
-                </div>
-
-                <div class="button">
-                    <div class="button-top"></div>
-                    <div class="button-bottom"></div>
-                </div>
-
-          </div>
-
+              <div class="button-container">
+                  <div class="utility-container">
+                      <div class="utility button">
+                          <div class="utility button-top"></div>
+                          <div class="utility button-bottom"></div>
+                      </div>
+                      <div class="utility button">
+                          <div class="utility button-top"></div>
+                          <div class="utility button-bottom"></div>
+                      </div>
+                      <div class="utility button">
+                          <div class="utility button-top"></div>
+                          <div class="utility button-bottom"></div>
+                      </div>
+                      <div class="utility button">
+                          <div class="utility button-top"></div>
+                          <div class="utility button-bottom"></div>
+                      </div>
+                  </div>
+                  <div class="middle-container">
+                      <div class="middle button">
+                          <div class="button-top"></div>
+                          <div class="button-bottom"></div>
+                      </div>
+                      <div class="middle button">
+                          <div class="button-top"></div>
+                          <div class="button-bottom"></div>
+                      </div>
+                      <div class="middle button">
+                          <div class="button-top"></div>
+                          <div class="button-bottom"></div>
+                      </div>
+                      <div class="middle button">
+                          <div class="button-top"></div>
+                          <div class="button-bottom"></div>
+                      </div>
+                      <div class="middle button">
+                          <div class="button-top"></div>
+                          <div class="button-bottom"></div>
+                      </div>
+                      <div class="middle button">
+                          <div class="button-top"></div>
+                          <div class="button-bottom"></div>
+                      </div>
+                      <div class="middle button">
+                          <div class="button-top"></div>
+                          <div class="button-bottom"></div>
+                      </div>
+                      <div class="middle button">
+                          <div class="button-top"></div>
+                          <div class="button-bottom"></div>
+                      </div>
+                  </div>
+                  <div class="space-container">
+                      <div class="space-top"></div>
+                      <div class="space-bottom"></div>
+                  </div>
+                  </div>
+              </div>
             </div>
       </body>
 
