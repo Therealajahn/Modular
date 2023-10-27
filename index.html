@@ -226,22 +226,27 @@ body{
 
         }
 
-        const toggleSomething = {
-            tally: -1,
-            addToTally: function(){
-                this.tally += 1;
-                return this.tally % 2 
-            },
-            do: function(){ return this.addToTally() },
+        function toggleSomething(tally){
+            tally += 1;
+            return tally % 2 
+        }
+        
+        const buttonToggles = {};
+
+        for(let i = 0; i < 8; i++){
+            buttonToggles[i] = 0;
         }
 
         function changeButtonColor(buttonElement,buttonIndex,color){
-            const toggle = toggleSomething;
+
+            buttonIndex = buttonIndex - 5;
 
             if(arguments.length === 4){
+                buttonToggles[buttonIndex] = toggleSomething(buttonToggles[buttonIndex]);
                 const colorAlternate = arguments[2];
                 const colorOriginal = arguments[3];
-                color = toggle.do()? colorOriginal : colorAlternate; 
+                color = buttonToggles[buttonIndex]? colorOriginal : colorAlternate; 
+                console.log(buttonToggles);
             }            
 
             buttonTopChange = buttonElement.getElementsByClassName("button-top")[0];
