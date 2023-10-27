@@ -62,7 +62,7 @@ body{
     grid-area: spc;
 }
 
-.middle.button,.utility.button,.audio-context.button{
+.middle.button,.utility.button{
     margin-top: -.5vw;
     --button-size: 2.8vw;
 /*  
@@ -118,12 +118,6 @@ body{
 
   </head>
       <body>
-
-          <div class="audio-context button">
-              <div class="audio-context button-top"></div>
-              <div class="audio-context button-bottom"></div>
-          </div>
-
           <div class="controls">
               <div class="button-container">
                   <div class="utility-container">
@@ -190,30 +184,13 @@ body{
     <script src="Dependencies/Tone.js" defer></script>
     <script>
 
-    async function startAudioContext(){
-
-        await Tone.start();   
-      //  startLoop();
-    }
-
-    function startLoop(){
-        
-        const loop = new Tone.Loop((time) => {
-            console.log(time);
-        },"8n").start(0);
-
-        Tone.Transport.start();
-
-    }
-
     function addButtonControlToTrigger(){
     
         let buttonList = document.getElementsByClassName("button");
-        let audioContextKeyList = "q";
         let utilityKeyList = "7890";
         let middleKeyList = "uiopjkl;";
         let functionKeyList = " ";
-        let keyList = [...audioContextKeyList,...utilityKeyList,...middleKeyList,...functionKeyList];
+        let keyList = [...utilityKeyList,...middleKeyList,...functionKeyList];
         let buttonTopMoving = {};
         function keyIndex(key){ 
             return keyList.indexOf(key);
@@ -225,39 +202,11 @@ body{
             buttonTopMoving.style.marginTop = distance;
 
         }
-
-        const toggleSomething = {
-            tally: -1,
-            addToTally: function(){
-                this.tally += 1;
-                return this.tally % 2 
-            },
-            do: function(){ return this.addToTally() },
-        }
-
-        function changeButtonColor(buttonElement,buttonIndex,color){
-            const toggle = toggleSomething;
-
-            if(arguments.length === 4){
-                const colorAlternate = arguments[2];
-                const colorOriginal = arguments[3];
-                color = toggle.do()? colorOriginal : colorAlternate; 
-            }            
-
-            buttonTopChange = buttonElement.getElementsByClassName("button-top")[0];
-            buttonTopChange.style.backgroundColor = color;
-
-        }
         
         document.addEventListener("keydown",(event) => {
 
             if(keyIndex(event.key) < 0) return; 
-            event.preventDefault();
-            let buttonIndex = keyIndex(event.key);
-            let buttonElement = buttonList[buttonIndex];
-            moveButton(buttonElement,".8vw");
-            if(middleKeyList.indexOf(event.key)) changeButtonColor(buttonElement,buttonIndex,"#40863b","#0083bb"); 
-            startAudioContext();
+            moveButton(buttonList[keyIndex(event.key)],".8vw");
 
         });
 
@@ -271,11 +220,10 @@ body{
         buttonList[0].addEventListener("load",whenButtonsLoad());
 
         function whenButtonsLoad(){
-
+            //TODO: fix the type error 
             for(const buttonIndex in buttonList){
                 buttonList[buttonIndex].addEventListener("mousedown",event => {
                         moveButton(event.currentTarget,".8vw");
-                        startAudioContext();
                     });
 
                 buttonList[buttonIndex].addEventListener("mouseup",event => {
