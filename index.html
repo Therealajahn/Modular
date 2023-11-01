@@ -238,15 +238,16 @@ body{
         }
 
         function changeButtonColor(buttonElement,buttonIndex,color){
-
+            console.log('buttonIndex',buttonIndex);
             buttonIndex = buttonIndex - 5;
-
+// If there are two colors given for arguments, the function will toggle between them
+// based on that button's status in the buttonToggles object
             if(arguments.length === 4){
                 buttonToggles[buttonIndex] = toggleSomething(buttonToggles[buttonIndex]);
                 const colorAlternate = arguments[2];
                 const colorOriginal = arguments[3];
                 color = buttonToggles[buttonIndex]? colorOriginal : colorAlternate; 
-                console.log(buttonToggles);
+                console.log("buttonToggles: ",buttonToggles);
             }            
 
             buttonTopChange = buttonElement.getElementsByClassName("button-top")[0];
@@ -261,7 +262,7 @@ body{
             let buttonIndex = keyIndex(event.key);
             let buttonElement = buttonList[buttonIndex];
             moveButton(buttonElement,".8vw");
-            if(middleKeyList.indexOf(event.key)) changeButtonColor(buttonElement,buttonIndex,"#40863b","#0083bb"); 
+            if(middleKeyList.indexOf(event.key) > -1) changeButtonColor(buttonElement,buttonIndex,"#0083bb","#00908a"); 
             startAudioContext();
 
         });
