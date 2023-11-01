@@ -193,16 +193,70 @@ body{
     async function startAudioContext(){
 
         await Tone.start();   
-      //  startLoop();
+        Tone.Transport.start();
+        console.log("audio started");
+    }
+
+    const buttonState = {};
+
+    function initButtonState(){
+
+            for(let i = 0; i < 8; i++){
+                buttonState[i] = {trigger : 0, playhead: 0};
+                buttonState[i].trigger = 0;
+                buttonState[i].playhead = 0;
+            }
+
+   }
+
+    initButtonState();
+    
+    function toggleSomething(tally){
+        tally += 1;
+        return tally % 2 
     }
 
     function startLoop(){
-        
-        const loop = new Tone.Loop((time) => {
-            console.log(time);
-        },"8n").start(0);
 
-        Tone.Transport.start();
+        const toggle = toggleSomething;
+        
+        let playheadIndex = -1;
+
+        function advanceSteps(){
+            
+            const loop = new Tone.Loop((time) => {
+
+                playheadIndex += 1;
+                playheadIndex %= 8;
+
+                if((playheadIndex - 1) % 8){
+
+                    buttonState[(playheadIndex - 1) % 8].playhead = 
+                        toggle(buttonState[(playheadIndex - 1) % 8].playhead);
+
+                }
+
+                buttonState[playheadIndex].playhead = 
+                    toggle(buttonState[playheadIndex].playhead);
+
+                console.log(buttonState);
+            },"8n").start(0);
+        }
+        advanceSteps();
+
+        function displayPlayhead(){
+            
+    // update the buttonModel so that playhead is displayed over each button                      // but returns to its previous state, either trigger or original
+
+            
+        }
+
+    }
+
+    function playSample(){
+
+        const player = new Tone.Player("./Samples/Jank_Drums/actual_kik.wav").toDestination();
+            player.autostart = true;
 
     }
 
@@ -226,28 +280,16 @@ body{
 
         }
 
-        function toggleSomething(tally){
-            tally += 1;
-            return tally % 2 
-        }
-        
-        const buttonToggles = {};
-
-        for(let i = 0; i < 8; i++){
-            buttonToggles[i] = 0;
-        }
-
-        function changeButtonColor(buttonElement,buttonIndex,color){
-            console.log('buttonIndex',buttonIndex);
+                function changeButtonColor(buttonElement,buttonIndex,color){
             buttonIndex = buttonIndex - 5;
 // If there are two colors given for arguments, the function will toggle between them
-// based on that button's status in the buttonToggles object
+// based on that button's status in the buttonState object
             if(arguments.length === 4){
-                buttonToggles[buttonIndex] = toggleSomething(buttonToggles[buttonIndex]);
+                buttonState[buttonIndex].trigger = toggleSomething(buttonState[buttonIndex].trigger);
                 const colorAlternate = arguments[2];
                 const colorOriginal = arguments[3];
-                color = buttonToggles[buttonIndex]? colorOriginal : colorAlternate; 
-                console.log("buttonToggles: ",buttonToggles);
+                color = buttonState[buttonIndex].trigger? colorOriginal : colorAlternate; 
+                console.log("buttonState: ",buttonState[buttonIndex].trigger);
             }            
 
             buttonTopChange = buttonElement.getElementsByClassName("button-top")[0];
@@ -262,8 +304,13 @@ body{
             let buttonIndex = keyIndex(event.key);
             let buttonElement = buttonList[buttonIndex];
             moveButton(buttonElement,".8vw");
-            if(middleKeyList.indexOf(event.key) > -1) changeButtonColor(buttonElement,buttonIndex,"#0083bb","#00908a"); 
             startAudioContext();
+            if(event.key === "q"){
+                startLoop();
+               // playSample();
+            }
+
+            if(middleKeyList.indexOf(event.key) > -1) changeButtonColor(buttonElement,buttonIndex,"#0083bb","#00908a"); 
 
         });
 
@@ -281,7 +328,6 @@ body{
             for(const buttonIndex in buttonList){
                 buttonList[buttonIndex].addEventListener("mousedown",event => {
                         moveButton(event.currentTarget,".8vw");
-                        startAudioContext();
                     });
 
                 buttonList[buttonIndex].addEventListener("mouseup",event => {
