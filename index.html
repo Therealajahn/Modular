@@ -190,15 +190,22 @@ body{
     <script src="Dependencies/Tone.js" defer></script>
     <script>
 
-    async function startAudioContext(){
 
-        await Tone.start();   
-        Tone.Transport.start();
-        console.log("audio started");
-
-    }
-
+///////////////////STATE/////////////////////////////////////////////
     const buttonState = {};
+    const utility = {
+        toggleSomething: toggleSomething,
+        changeButtonColor: changeButtonColor,
+    }
+    const audio = {
+        player: null,
+        playSample:playSample,
+    }
+    const properties = {
+        playheadColor:"red",
+        originalColor:"#0083bb",
+        triggerColor:"#00908a",
+    };
 
     function initButtonState(){
         for(let i = 0; i < 8; i++){
@@ -207,7 +214,22 @@ body{
    }
 
     initButtonState();
-    
+
+    async function startAudioContext(){
+
+        await Tone.start();   
+        Tone.Transport.start();
+        function initSamples(){
+            const player = new Tone.Player("./Samples/Jank_Drums/actual_kik.wav").toDestination();
+            audio.player = player;
+        }
+        initSamples();
+
+    }
+
+///////////////////STATE/////////////////////////////////////////////
+
+///////////////////METHODS///////////////////////////////////////////
     function toggleSomething(tally){
         tally += 1;
         return tally % 2 
@@ -217,92 +239,99 @@ body{
             buttonIndex = buttonIndex - 5;
 // If there are two colors given for arguments, the function will toggle between them
 // based on that button's status in the buttonState object
-            if(arguments.length === 4){
-                buttonState[buttonIndex].trigger = toggleSomething(buttonState[buttonIndex].trigger);
-                const colorAlternate = arguments[2];
-                const colorOriginal = arguments[3];
+            if(color === "toggle"){
+                buttonState[buttonIndex].trigger = 
+                    toggleSomething(buttonState[buttonIndex].trigger);
+                const colorAlternate = arguments[3];
+                const colorOriginal = arguments[4];
                 color = buttonState[buttonIndex].trigger? colorOriginal : colorAlternate; 
                 console.log("buttonState: ",buttonState);
             }            
 
             buttonTopChange = buttonElement.getElementsByClassName("button-top")[0];
-        console.log("buttonTopChange:",buttonTopChange,);
-        console.log("color:",color);
             buttonTopChange.style.backgroundColor = color;
 
-        }
+    }
+
+    function playSample(time){
+        audio.player.start(time);
+    }
+///////////////////METHODS///////////////////////////////////////////
 
     function startLoop(){
-        console.log("start loop");
-        const toggle = toggleSomething;
-        const changeColor = changeButtonColor;
+        const {toggleSomething,changeButtonColor} = utility;
         let loopLength = 8;
         let playheadIndex = 0;
         let eraserIndex = loopLength - 1;
+        const {playheadColor,originalColor,triggerColor} = properties;
+        const buttonElement =
+                document.getElementsByClassName("middle button");
+
         function advanceSteps(){
             const loop = new Tone.Loop((time) => {
-/*
-                buttonState[playheadIndex].playhead = 
-                    toggle(buttonState[playheadIndex].playhead);
-                buttonState[eraserIndex].playhead = 
-                    toggle(buttonState[eraserIndex].playhead);
-*/
-                const buttonElement =
-                    document.getElementsByClassName("middle button");
-                const playheadButton = 
-                    buttonElement[playheadIndex];
-                const eraseButton = 
-                    buttonElement[eraserIndex];
-                console.log("buttonElement",buttonElement)
-                console.log("playheadIndex",playheadIndex)
-                console.log("eraserIndex",eraserIndex)
-                console.log("buttonState",buttonState);
-                console.log("playheadButton",playheadButton)
-                console.log("eraseButton",eraseButton)
 
-                const playheadColor = "red";
-                const originalColor = "#0083bb";
-                const triggerColor = "#00908a";
+                function updateButtonState(){
+                    buttonState[playheadIndex].playhead = 
+                    toggleSomething(buttonState[playheadIndex].playhead);
 
-                changeColor(playheadButton,playheadIndex,playheadColor);
 
-                if(buttonState[playheadIndex].trigger){
-                    changeColor(eraseButton,triggerColor);
+                    if(buttonState[eraserIndex].playhead){
+                        buttonState[eraserIndex].playhead = 
+                        toggleSomething(buttonState[eraserIndex].playhead);
+                    }
                 }
-// If the current step has a trigger on it, change color to trigger color
-                const returnToColor = buttonState[eraserIndex].trigger ? 
-                    triggerColor : originalColor;
-                changeColor(eraseButton,eraserIndex,returnToColor);
+                updateButtonState();
 
-                playheadIndex += 1;
-                eraserIndex += 1;
+                function drawPlayhead(){
+                    const eraseButton = 
+                        buttonElement[eraserIndex];
+                    const playheadButton = 
+                        buttonElement[playheadIndex];
 
-                if(playheadIndex === loopLength){
-                    playheadIndex = 0;
-                    eraserIndex = loopLength - 1;
-                }else if(eraserIndex === loopLength){
-                    eraserIndex = 0;
+                    if(buttonState[playheadIndex].trigger){
+                        changeButtonColor(eraseButton,triggerColor);
+                    }
+                    // If the current step has a trigger on it, change color to trigger color
+                    const returnToColor = buttonState[eraserIndex].trigger ? 
+                        triggerColor : originalColor;
+
+                    changeButtonColor(eraseButton,eraserIndex,returnToColor);
+
+
+                    changeButtonColor(playheadButton,playheadIndex,playheadColor);
+
+                detectTriggerActivation();
+
+                    playheadIndex += 1;
+                    eraserIndex += 1;
+
+                    if(playheadIndex === loopLength){
+                        playheadIndex = 0;
+                        eraserIndex = loopLength - 1;
+                    }else if(eraserIndex === loopLength){
+                        eraserIndex = 0;
+                    }
+                }
+                drawPlayhead();
+
+                function detectTriggerActivation(){
+                    console.log("START trigger activation")
+                    console.log("playheadIndex",playheadIndex);
+                    console.log("trigger",buttonState[playheadIndex].trigger);
+                    console.log("playhead",buttonState[playheadIndex].playhead);
+                    if(buttonState[playheadIndex].trigger 
+                        && buttonState[playheadIndex].playhead){
+                    console.log("trigger activation!");
+                    audio.playSample(time);             
+                    }
+                    console.log("END trigger activation")
                 }
 
             },"8n").start(0);
         }
         advanceSteps();
-
-        function displayPlayhead(){
-            
-    // update the buttonModel so that playhead is displayed over each button                      // but returns to its previous state, either trigger or original
-
-            
-        }
-
     }
 
-    function playSample(){
-
-        const player = new Tone.Player("./Samples/Jank_Drums/actual_kik.wav").toDestination();
-            player.autostart = true;
-
-    }
 
     function addButtonControlToTrigger(){
     
@@ -311,7 +340,8 @@ body{
         let utilityKeyList = "7890";
         let middleKeyList = "uiopjkl;";
         let functionKeyList = " ";
-        let keyList = [...audioContextKeyList,...utilityKeyList,...middleKeyList,...functionKeyList];
+        let keyList =
+            [...audioContextKeyList,...utilityKeyList,...middleKeyList,...functionKeyList];
         let buttonTopMoving = {};
 
         function keyIndex(key){ 
@@ -333,11 +363,12 @@ body{
             moveButton(buttonElement,".8vw");
             startAudioContext();
             if(event.key === "q"){
-                startLoop();
-               // playSample();
+
+              startLoop();
+
             }
 
-            if(middleKeyList.indexOf(event.key) > -1) changeButtonColor(buttonElement,buttonIndex,"#0083bb","#00908a"); 
+            if(middleKeyList.indexOf(event.key) > -1) changeButtonColor(buttonElement,buttonIndex,"toggle","#0083bb","#00908a"); 
 
         });
 
